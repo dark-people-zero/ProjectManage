@@ -1,34 +1,276 @@
 {
-  "name": "projectmanage",
-  "displayName": "projectManage",
-  "description": "",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.85.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [],
-  "main": "./extension.js",
-  "contributes": {
-    "commands": [{
-      "command": "projectmanage.helloWorld",
-      "title": "Hello World"
-    }]
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.85.0",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "18.x",
-    "eslint": "^8.54.0",
-    "typescript": "^5.3.2",
-    "@vscode/test-cli": "^0.0.4",
-    "@vscode/test-electron": "^2.3.8"
-  }
+	"name": "manage-project",
+	"displayName": "Manage Project",
+	"description": "Easily switch between projects",
+	"version": "0.0.1",
+	"publisher": "darkPeopleZero",
+	"engines": {
+		"vscode": "^1.85.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"git",
+		"project",
+		"manage",
+		"folder",
+		"workspace",
+		"switch",
+		"manage",
+		"mercurial",
+		"svn",
+		"multi-root ready",
+		"project manage"
+	],
+	"extensionKind": [
+		"ui",
+		"workspace"
+	],
+	"capabilities": {
+		"virtualWorkspaces": true,
+		"untrustedWorkspaces": {
+			"supported": true
+		}
+	},
+	"icon": "images/icon.webp",
+	"license": "ISC",
+	"homepage": "",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dark-people-zero/ProjectManage/blob/master/README.md"
+	},
+	"bugs": {
+		"url": "https://github.com/dark-people-zero/ProjectManage/issues"
+	},
+	"activationEvents": [
+		"onStartupFinished",
+		"onView:manage-project",
+		"onLanguage:json",
+		"onLanguage:jsonc"
+	],
+	"main": "./src/extension.js",
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "manage-project",
+					"title": "%manageProject.activitybar.title%",
+					"icon": "images/archive.svg"
+				}
+			]
+		},
+		"views": {
+			"manage-project": [
+				{
+					"id": "ManageProject",
+					"name": "List Data"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "ManageProject",
+				"contents": "Tidak ada project yang terdeksi.\n[$(save) Save Project](command:ManageProject.saveProject)\n[$(new-folder) New Folder](command:ManageProject.newFolder)"
+			}
+		],
+		"commands": [
+			{
+				"command": "ManageProject.newFolder",
+				"title": "New Folder",
+				"icon": "$(new-folder)"
+			},
+			{
+				"command": "ManageProject.editJson",
+				"title": "Edit Project Manual",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "ManageProject.renameFolder",
+				"title": "Rename Folder"
+			},
+			{
+				"command": "ManageProject.deleteFolder",
+				"title": "Delete Folder",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "ManageProject.open",
+				"title": "Open"
+			},
+			{
+				"command": "ManageProject.openNewWindow",
+				"title": "Open In New Window",
+				"icon": "$(link-external)"
+			},
+			{
+				"command": "ManageProject.openInExplorer",
+				"title": "Open Explorer"
+			},
+			{
+				"command": "ManageProject.renameProject",
+				"title": "Rename Project"
+			},
+			{
+				"command": "ManageProject.renameGlobal",
+				"title": "Rename...",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "ManageProject.refresh",
+				"title": "Refresh",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "ManageProject.saveProject",
+				"title": "Save Project",
+				"icon": "$(save)"
+			},
+			{
+				"command": "ManageProject.search",
+				"title": "Cari Project",
+				"icon": "$(search)"
+			},
+			{
+				"command": "ManageProject.deleteProject",
+				"title": "Delete Project",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "ManageProject.settings",
+				"title": "Open Settings",
+				"icon": "$(settings-gear)"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "ManageProject.newFolder",
+					"when": "view == ManageProject",
+					"group": "navigation@02"
+				},
+				{
+					"command": "ManageProject.editJson",
+					"when": "view == ManageProject",
+					"group": "navigation@01"
+				},
+				{
+					"command": "ManageProject.refresh",
+					"when": "view == ManageProject",
+					"group": "navigation@03"
+				},
+				{
+					"command": "ManageProject.search",
+					"when": "view == ManageProject",
+					"group": "navigation@04"
+				},
+				{
+					"command": "ManageProject.settings",
+					"when": "view == ManageProject",
+					"group": "navigation@05"
+				},
+				{
+					"command": "ManageProject.saveProject",
+					"when": "view == ManageProject",
+					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "ManageProject.deleteProject",
+					"when": "view == ManageProject && viewItem == file",
+					"group": "inline"
+				},
+				{
+					"command": "ManageProject.renameGlobal",
+					"when": "view == ManageProject",
+					"group": "inline@01"
+				},
+				{
+					"command": "ManageProject.openNewWindow",
+					"when": "view == ManageProject && viewItem == file",
+					"group": "inline@02"
+				},
+
+				{
+					"command": "ManageProject.renameFolder",
+					"when": "view == ManageProject && viewItem == folder"
+				},
+				{
+					"command": "ManageProject.deleteFolder",
+					"when": "view == ManageProject && viewItem == folder"
+				},
+				{
+					"command": "ManageProject.deleteFolder",
+					"when": "view == ManageProject && viewItem == folder",
+					"group": "inline"
+				},
+				{
+					"command": "ManageProject.open",
+					"when": "view == ManageProject && viewItem == file",
+					"group": "navigation"
+				},
+				{
+					"command": "ManageProject.openNewWindow",
+					"when": "view == ManageProject && viewItem == file",
+					"group": "navigation@02"
+				},
+				{
+					"command": "ManageProject.openInExplorer",
+					"when": "view == ManageProject && viewItem == file",
+					"group": "navigation@03"
+				},
+				{
+					"command": "ManageProject.renameProject",
+					"when": "view == ManageProject && viewItem == file",
+					"group": "navigation@4"
+				},
+				{
+					"command": "ManageProject.deleteProject",
+					"when": "view == ManageProject && viewItem == file",
+					"group": "navigation@5"
+				}
+			]
+		},
+		"configuration": [
+			{
+				"title": "Manage Project",
+				"properties": {
+					"ManageProject.autorefresh": {
+						"type": "boolean",
+						"default": false,
+						"description": "Jika di centang, maka setiap perubahan pada file project.json, akan otomatis berubah pada panel list data."
+					}
+				}
+			}
+		],
+		"keybindings": [
+			{
+				"command": "ManageProject.delKeyBind",
+				"key": "delete",
+				"when": "ManageProjectKeyDel"
+			}
+		]
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "vscode-test"
+	},
+	"devDependencies": {
+		"@types/mkdirp": "^2.0.0",
+		"@types/mocha": "^10.0.6",
+		"@types/node": "18.x",
+		"@types/vscode": "^1.85.0",
+		"@vscode/test-cli": "^0.0.4",
+		"@vscode/test-electron": "^2.3.8",
+		"eslint": "^8.54.0",
+		"typescript": "^5.3.2"
+	},
+	"dependencies": {
+		"ftp": "^0.3.10",
+		"jsonc-parser": "^3.2.0",
+		"mkdirp": "^3.0.1",
+		"uuid": "^9.0.1"
+	}
 }
