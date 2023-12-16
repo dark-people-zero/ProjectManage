@@ -3,13 +3,11 @@ const path = require("path");
 const fs = require("fs");
 const uuid = require("uuid");
 
-class ManageProject extends vscode.TreeItem {
+class ManageProject {
     /**
      * @param {vscode.ExtensionContext} context
      */
     constructor(context) {
-        // @ts-ignore
-        super();
         this.dropMimeTypes = ['application/vnd.code.tree.ManageProject'];
         this.dragMimeTypes = ['text/uri-list'];
         this._onDidChangeTreeData = new vscode.EventEmitter();
@@ -24,6 +22,7 @@ class ManageProject extends vscode.TreeItem {
         this.readData();
 
         vscode.workspace.onDidChangeTextDocument(e => this.onDocumentChanged(e));
+        
         this.autoRefresh = vscode.workspace.getConfiguration('ManageProject').get('autorefresh', false);
         vscode.workspace.onDidChangeConfiguration(() => {
             this.autoRefresh = vscode.workspace.getConfiguration('ManageProject').get('autorefresh', false);
